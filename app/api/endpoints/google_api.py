@@ -33,7 +33,9 @@ async def get_report(
     )
     spreadsheetid = await spreadsheets_create(wrapper_services)
     await set_user_permissions(spreadsheetid, wrapper_services)
-    await spreadsheets_update_value(spreadsheetid,
-                                    projects,
-                                    wrapper_services)
+    try:
+        await spreadsheets_update_value(
+            spreadsheetid, projects, wrapper_services)
+    except ValueError:
+        raise ValueError('Данные не были обновлены.')
     return projects
